@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Истории успеха - Habit</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .stories-page { background: var(--light-bg); }
+        .story-card { background: white; border-radius: 20px; padding: 1.5rem; box-shadow: var(--shadow-md); transition: all 0.3s ease; position: relative; border: 1px solid rgba(58, 44, 41, 0.05); height: 100%; display: flex; flex-direction: column; }
+        .story-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+        .story-card.featured { border-left: 4px solid #d9b382; background: linear-gradient(135deg, white 0%, #faf5ec 100%); }
+        .story-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+        .story-avatar { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #b5c9a0 0%, #d9b382 100%); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: #3a2c29; }
+        .story-author-info h3 { font-size: 1.2rem; font-weight: 700; color: #3a2c29; margin-bottom: 0.25rem; }
+        .story-author-info .story-meta { color: #6b5a55; font-size: 0.85rem; }
+        .story-badge { display: inline-block; padding: 0.25rem 0.75rem; background: rgba(181, 201, 160, 0.15); border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: #3a2c29; margin-bottom: 1rem; }
+        .story-title { font-size: 1.3rem; font-weight: 700; color: #3a2c29; margin-bottom: 1rem; line-height: 1.4; }
+        .story-content { color: #3a2c29; line-height: 1.6; margin-bottom: 1.5rem; flex: 1; }
+        .story-stats { display: flex; gap: 1.5rem; margin-bottom: 1rem; padding: 0.75rem 0; border-top: 1px solid rgba(58, 44, 41, 0.1); border-bottom: 1px solid rgba(58, 44, 41, 0.1); }
+        .stat-item { text-align: center; }
+        .stat-item .value { font-size: 1.1rem; font-weight: 700; color: #3a2c29; }
+        .stat-item .label { font-size: 0.75rem; color: #6b5a55; }
+        .habits-list { background: #faf5ec; border-radius: 12px; padding: 1rem; margin-bottom: 1rem; }
+        .habits-list h6 { font-size: 0.9rem; font-weight: 600; color: #3a2c29; margin-bottom: 0.75rem; }
+        .habit-tag { display: inline-block; padding: 0.25rem 0.75rem; background: white; border-radius: 20px; font-size: 0.8rem; margin: 0.25rem; border: 1px solid rgba(58, 44, 41, 0.1); }
+        .story-actions { display: flex; gap: 0.75rem; margin-top: auto; }
+        .btn-save-habits { flex: 1; background: #3a2c29; color: white; border: none; padding: 0.6rem; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; }
+        .btn-save-habits:hover { background: #5a4a47; transform: translateY(-2px); }
+        .btn-like { width: 45px; height: 45px; border-radius: 10px; border: 1px solid rgba(58, 44, 41, 0.1); background: white; color: #3a2c29; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: all 0.3s; }
+        .btn-like:hover, .btn-like.liked { background: #d9b382; color: #3a2c29; border-color: #d9b382; }
+        .stories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .filters-section { background: white; border-radius: 16px; padding: 1.25rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); }
+        .category-filter { padding: 0.4rem 1rem; border-radius: 30px; background: #faf5ec; border: 1px solid rgba(58, 44, 41, 0.1); font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+        .category-filter:hover, .category-filter.active { background: #d9b382; color: #3a2c29; border-color: #d9b382; }
+        .quote-of-day { background: linear-gradient(135deg, #b5c9a0 0%, #d9b382 100%); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; color: #3a2c29; }
+        .quote-text { font-size: 1.2rem; font-style: italic; margin-bottom: 0.5rem; }
+        .quote-author { font-weight: 600; text-align: right; }
+        .share-story-btn { background: #b5c9a0; color: #3a2c29; border: none; padding: 0.75rem 2rem; border-radius: 12px; font-weight: 600; margin-bottom: 2rem; transition: all 0.3s; }
+        .share-story-btn:hover { background: #9bb084; transform: translateY(-2px); }
+        @media (max-width: 768px) { .stories-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body class="stories-page">
+    <div class="page-wrapper">
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Habit" style="height: 35px; width: auto;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto"></ul></div>
+            </div>
+        </nav>
+
+        <div class="notification-container" id="notificationContainer"></div>
+
+        <main class="content-wrapper">
+            <div class="container">
+                <section class="page-header-section"><div class="container"><div class="page-title-wrapper"><h1 class="page-title">Истории успеха</h1><p class="page-subtitle">Реальные люди, реальные изменения</p></div></div></section>
+
+                <div class="quote-of-day" id="quoteOfDay"><div class="quote-text" id="dailyQuoteText"></div><div class="quote-author" id="dailyQuoteAuthor"></div></div>
+
+                <div class="text-center"><button class="share-story-btn" onclick="openShareStoryModal()"><i class="bi bi-pencil-square me-2"></i>Поделиться своей историей</button></div>
+
+                <div class="filters-section">
+                    <div class="category-filters mb-3 d-flex flex-wrap gap-2" id="categoryFilters"><span class="category-filter active" data-category="all">Все истории</span><span class="category-filter" data-category="health">🏃 Здоровье</span><span class="category-filter" data-category="education">📚 Образование</span><span class="category-filter" data-category="work">💼 Работа</span><span class="category-filter" data-category="mindfulness">🧘 Осознанность</span><span class="category-filter" data-category="fitness">💪 Спорт</span><span class="category-filter" data-category="productivity">⚡ Продуктивность</span></div>
+                    <div class="row align-items-center"><div class="col-md-6"><select class="form-select" id="sortStories"><option value="popular">Самые популярные</option><option value="recent">Самые новые</option><option value="inspiring">Самые вдохновляющие</option></select></div><div class="col-md-6 text-md-end"><span class="text-muted" id="storiesCount">Найдено 0 историй</span></div></div>
+                </div>
+
+                <div class="stories-grid" id="storiesContainer"></div>
+                <div class="text-center mt-4 mb-5" id="loadMoreContainer" style="display: none;"><button class="btn btn-outline-primary" onclick="loadMoreStories()"><i class="bi bi-arrow-down me-2"></i>Загрузить еще</button></div>
+            </div>
+        </main>
+
+        <footer class="footer"><div class="container"><div class="row"><div class="col-md-6"><p class="mb-0">&copy; 2026 Habit. Все права защищены.</p></div><div class="col-md-6 text-md-end"><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal" class="me-3">Политика конфиденциальности</a><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Условия использования</a></div></div></div></footer>
+
+        <div class="modal fade" id="privacyModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-shield-lock me-2"></i>Политика конфиденциальности</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><h6>1. Общие положения</h6><p>Настоящая Политика конфиденциальности является неотъемлемой частью Пользовательского соглашения Habit.</p><h6 class="mt-3">2. Какие данные мы собираем</h6><p>Имя, email, логин, информация о привычках и прогрессе, технические данные.</p><h6 class="mt-3">3. Как мы используем данные</h6><p>Для предоставления сервиса, персонализации, аналитики.</p><h6 class="mt-3">4. Защита данных</h6><p>Мы принимаем все необходимые меры для защиты ваших данных.</p><p class="text-muted mt-3"><small>Последнее обновление: 15 апреля 2026 г.</small></p></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Понятно</button></div></div></div></div>
+
+        <div class="modal fade" id="termsModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-file-text me-2"></i>Условия использования</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><h6>1. Принятие условий</h6><p>Регистрируясь и используя сервис Habit, вы соглашаетесь с настоящими Условиями.</p><h6 class="mt-3">2. Описание сервиса</h6><p>Habit — платформа для отслеживания и формирования полезных привычек.</p><h6 class="mt-3">3. Обязанности пользователя</h6><ul><li>Предоставлять достоверную информацию</li><li>Не нарушать работу сервиса</li><li>Уважать других пользователей</li></ul><p class="text-muted mt-3"><small>Последнее обновление: 15 апреля 2026 г.</small></p></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Принимаю</button></div></div></div></div>
+    </div>
+
+    <div class="modal fade" id="saveHabitsModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="saveHabitsModalTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><p class="mb-3" id="saveHabitsModalDesc"></p><div class="habits-to-save" id="habitsToSave"></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button><button type="button" class="btn btn-primary" onclick="confirmSaveHabits()"><i class="bi bi-save me-2"></i>Сохранить выбранные</button></div></div></div></div>
+
+    <div class="modal fade" id="shareStoryModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Поделиться своей историей</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><form id="shareStoryForm"><div class="mb-3"><label class="form-label">Заголовок истории</label><input type="text" class="form-control" id="storyTitle" placeholder="Например: Как я пробежал свой первый марафон" required></div><div class="mb-3"><label class="form-label">Ваша история</label><textarea class="form-control" id="storyText" rows="5" placeholder="Расскажите, как привычки изменили вашу жизнь..." required></textarea></div><div class="mb-3"><label class="form-label">Категория</label><select class="form-select" id="storyCategory"><option value="health">🏃 Здоровье</option><option value="education">📚 Образование</option><option value="work">💼 Работа</option><option value="mindfulness">🧘 Осознанность</option><option value="fitness">💪 Спорт</option><option value="productivity">⚡ Продуктивность</option></select></div><div class="mb-3"><label class="form-label">Какие привычки вам помогли?</label><div id="userHabitsForStory" class="mb-2"></div><small class="text-muted">Выберите привычки, которые хотите добавить в историю</small></div></form></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button><button type="button" class="btn btn-primary" onclick="submitStory()"><i class="bi bi-send me-2"></i>Опубликовать</button></div></div></div></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/stories.js"></script>
+</body>
+</html>

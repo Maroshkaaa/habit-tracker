@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit - Твой помощник в формировании привычек</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .hero-section { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; padding: 3rem 0; position: relative; overflow: hidden; margin-top: 0; min-height: auto; }
+        .hero-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(217,179,130,0.1)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,170.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom; background-size: cover; opacity: 0.2; }
+        .hero-content { position: relative; z-index: 2; }
+        .hero-title { font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .hero-title .text-accent { color: var(--accent); display: block; }
+        .hero-subtitle { font-size: 1rem; opacity: 0.95; margin-bottom: 1.5rem; max-width: 500px; }
+        .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .btn-light-custom { background: white; color: var(--primary); border: none; padding: 0.5rem 1.5rem; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; display: inline-block; text-decoration: none; }
+        .btn-light-custom:hover { background: var(--accent); color: var(--primary); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .btn-outline-light-custom { background: transparent; color: white; border: 2px solid white; padding: 0.5rem 1.5rem; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; display: inline-block; text-decoration: none; }
+        .btn-outline-light-custom:hover { background: white; color: var(--primary); transform: translateY(-2px); }
+        .hero-stats-card { background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 20px; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: float 3s ease-in-out infinite; max-width: 380px; margin-left: auto; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .hero-stats-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.2); }
+        .hero-stats-header h5 { font-size: 1rem; font-weight: 600; margin: 0; }
+        .badge-streak { background: var(--accent); color: var(--primary); padding: 0.2rem 0.6rem; border-radius: 20px; font-weight: 600; font-size: 0.7rem; }
+        .hero-stat-item { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s ease; }
+        .hero-stat-item:hover { transform: translateX(5px); }
+        .hero-stat-info { display: flex; flex-direction: column; }
+        .hero-stat-name { font-weight: 600; font-size: 0.85rem; }
+        .hero-stat-time { font-size: 0.7rem; opacity: 0.8; }
+        .hero-stat-badge { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.2); color: white; transition: all 0.3s ease; font-size: 0.75rem; }
+        .hero-stat-badge.completed { background: var(--secondary); color: var(--primary); }
+        .hero-stat-badge.active { background: var(--accent); color: var(--primary); }
+        .hero-progress { margin-top: 1rem; }
+        .hero-progress-label { display: flex; justify-content: space-between; margin-bottom: 0.35rem; font-size: 0.8rem; }
+        .hero-progress-bar { height: 6px; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; }
+        .hero-progress-fill { height: 100%; background: var(--accent); border-radius: 10px; }
+        .social-proof { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+        .user-avatars { display: flex; align-items: center; }
+        .user-avatars img { width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; margin-right: -8px; transition: transform 0.2s; }
+        .user-avatars img:hover { transform: scale(1.1); z-index: 10; }
+        .user-count { margin-left: 8px; font-size: 0.8rem; opacity: 0.9; }
+        .features-section { padding: 2.5rem 0; background: var(--light); }
+        .section-header { text-align: center; margin-bottom: 2rem; }
+        .section-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; position: relative; display: inline-block; }
+        .section-title::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background: var(--accent); border-radius: 2px; }
+        .section-subtitle { font-size: 0.95rem; color: var(--text-light); max-width: 500px; margin: 0 auto; }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .feature-card { background: white; border-radius: 16px; padding: 1.5rem 1rem; text-align: center; box-shadow: var(--shadow-sm); transition: all 0.3s; height: 100%; }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+        .feature-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--light-bg); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 1rem; transition: all 0.3s; }
+        .feature-card:hover .feature-icon { background: var(--gradient-accent); color: var(--primary); transform: rotateY(180deg); }
+        .feature-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.75rem; }
+        .feature-card p { color: var(--text-light); margin-bottom: 0; font-size: 0.85rem; line-height: 1.5; }
+        .stats-section { padding: 2rem 0; background: white; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; text-align: center; }
+        .stat-item h3 { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 0.25rem; }
+        .stat-item p { color: var(--text-light); font-size: 0.8rem; font-weight: 500; }
+        .cta-section { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); padding: 2.5rem 0; color: white; text-align: center; }
+        .cta-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.75rem; }
+        .cta-subtitle { font-size: 0.95rem; opacity: 0.9; margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .btn-cta { background: white; color: var(--primary); border: none; padding: 0.6rem 2rem; border-radius: 50px; font-size: 0.95rem; font-weight: 700; transition: all 0.3s; display: inline-block; text-decoration: none; }
+        .btn-cta:hover { background: var(--accent); color: var(--primary); transform: translateY(-2px); box-shadow: 0 15px 25px rgba(0,0,0,0.2); }
+        @media (max-width: 992px) { .hero-title { font-size: 2rem; } .features-grid { grid-template-columns: repeat(2, 1fr); } .stats-grid { grid-template-columns: repeat(2, 1fr); } .hero-stats-card { margin-left: 0; margin-top: 1.5rem; max-width: 100%; } }
+        @media (max-width: 768px) { .hero-section { padding: 2rem 0; } .hero-title { font-size: 1.8rem; } .hero-subtitle { font-size: 0.9rem; } .features-grid { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr; } .section-title { font-size: 1.5rem; } .cta-title { font-size: 1.5rem; } }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Habit" style="height: 35px; width: auto;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto"></ul></div>
+            </div>
+        </nav>
+
+        <div class="notification-container" id="notificationContainer"></div>
+
+        <main class="content-wrapper">
+            <section class="hero-section">
+                <div class="container"><div class="row align-items-center"><div class="col-lg-6"><div class="hero-content"><h1 class="hero-title">Создавай полезные привычки<span class="text-accent">с удовольствием</span></h1><p class="hero-subtitle">Преврати формирование привычек в увлекательную игру. Отслеживай прогресс, получай награды и становись лучше каждый день.</p><div class="hero-actions"><a href="habits.html" class="btn-light-custom"><i class="bi bi-rocket-takeoff me-2"></i>Начать бесплатно</a><a href="#features" class="btn-outline-light-custom"><i class="bi bi-play-circle me-2"></i>Как это работает</a></div><div class="social-proof"><div class="user-avatars"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User"><img src="https://randomuser.me/api/portraits/men/75.jpg" alt="User"><span class="user-count">+10,000 пользователей</span></div></div></div></div><div class="col-lg-6"><div class="hero-stats-card"><div class="hero-stats-header"><h5>Сегодняшний прогресс</h5><span class="badge-streak"><i class="bi bi-fire me-1"></i>7 дней подряд</span></div><div class="hero-stats-content"><div class="hero-stat-item"><div class="hero-stat-info"><span class="hero-stat-name">Утренняя зарядка</span><span class="hero-stat-time">07:30</span></div><div class="hero-stat-badge completed"><i class="bi bi-check-lg"></i></div></div><div class="hero-stat-item"><div class="hero-stat-info"><span class="hero-stat-name">Чтение книги</span><span class="hero-stat-time">21:00</span></div><div class="hero-stat-badge active"><i class="bi bi-play-fill"></i></div></div><div class="hero-stat-item"><div class="hero-stat-info"><span class="hero-stat-name">Изучение английского</span><span class="hero-stat-time">19:00</span></div><div class="hero-stat-badge"><i class="bi bi-clock"></i></div></div></div><div class="hero-progress"><div class="hero-progress-label"><span>Прогресс дня</span><span class="fw-bold">33%</span></div><div class="hero-progress-bar"><div class="hero-progress-fill" style="width: 33%"></div></div></div></div></div></div></div>
+            </section>
+
+            <section id="features" class="features-section">
+                <div class="container"><div class="section-header"><h2 class="section-title">Как это работает</h2><p class="section-subtitle">Простой и эффективный подход к формированию привычек</p></div><div class="features-grid"><div class="feature-card"><div class="feature-icon"><i class="bi bi-plus-circle"></i></div><h3>Создай привычку</h3><p>Добавь привычку, укажи время и сложность. Начни с малого, но делай это регулярно.</p></div><div class="feature-card"><div class="feature-icon"><i class="bi bi-graph-up"></i></div><h3>Отслеживай прогресс</h3><p>Следи за сериями, получай статистику и визуализацию прогресса в реальном времени.</p></div><div class="feature-card"><div class="feature-icon"><i class="bi bi-trophy"></i></div><h3>Получай награды</h3><p>Зарабатывай очки, открывай достижения и становись лучше каждый день.</p></div></div></div>
+            </section>
+
+            <section class="stats-section"><div class="container"><div class="stats-grid"><div class="stat-item"><h3>15,000+</h3><p>Активных пользователей</p></div><div class="stat-item"><h3>150,000+</h3><p>Выполненных привычек</p></div><div class="stat-item"><h3>4.8/5</h3><p>Рейтинг в магазинах</p></div><div class="stat-item"><h3>50+</h3><p>Достижений</p></div></div></div></section>
+
+            <section class="cta-section"><div class="container"><h2 class="cta-title">Готов начать меняться?</h2><p class="cta-subtitle">Присоединяйся к тысячам пользователей, которые уже развивают полезные привычки</p><a href="habits.html" class="btn-cta"><i class="bi bi-rocket-takeoff me-2"></i>Начать бесплатно</a></div></section>
+        </main>
+
+        <footer class="footer"><div class="container"><div class="row"><div class="col-md-6"><p class="mb-0">&copy; 2026 Habit. Все права защищены.</p></div><div class="col-md-6 text-md-end"><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal" class="me-3">Политика конфиденциальности</a><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Условия использования</a></div></div></div></footer>
+    </div>
+
+    <div class="modal fade" id="privacyModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-shield-lock me-2"></i>Политика конфиденциальности</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><h6>1. Общие положения</h6><p>Настоящая Политика конфиденциальности является неотъемлемой частью Пользовательского соглашения Habit.</p><h6 class="mt-3">2. Какие данные мы собираем</h6><ul><li>Имя и контактные данные (email, логин)</li><li>Информация о привычках и прогрессе</li><li>Технические данные (IP-адрес, тип устройства)</li></ul><h6 class="mt-3">3. Как мы используем данные</h6><ul><li>Предоставления и улучшения функционала сервиса</li><li>Персонализации пользовательского опыта</li><li>Аналитики и статистики</li></ul><h6 class="mt-3">4. Защита данных</h6><p>Мы принимаем все необходимые меры для защиты ваших данных.</p><h6 class="mt-3">5. Передача данных третьим лицам</h6><p>Мы не передаем ваши персональные данные третьим лицам.</p><h6 class="mt-3">6. Файлы cookie</h6><p>Мы используем файлы cookie для улучшения работы сервиса.</p><h6 class="mt-3">7. Изменение политики</h6><p>Мы оставляем за собой право вносить изменения в настоящую Политику конфиденциальности.</p><p class="text-muted mt-3"><small>Последнее обновление: 15 апреля 2026 г.</small></p></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Понятно</button></div></div></div></div>
+
+    <div class="modal fade" id="termsModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-file-text me-2"></i>Условия использования</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><h6>1. Принятие условий</h6><p>Регистрируясь и используя сервис Habit, вы соглашаетесь с настоящими Условиями использования.</p><h6 class="mt-3">2. Описание сервиса</h6><p>Habit — это платформа для отслеживания и формирования полезных привычек.</p><h6 class="mt-3">3. Обязанности пользователя</h6><ul><li>Предоставлять достоверную информацию при регистрации</li><li>Не нарушать работу сервиса</li><li>Не использовать сервис для незаконных целей</li><li>Уважать других пользователей сообщества</li></ul><h6 class="mt-3">4. Контент пользователей</h6><p>Вы сохраняете права на создаваемый вами контент.</p><h6 class="mt-3">5. Интеллектуальная собственность</h6><p>Все материалы сервиса защищены авторским правом.</p><h6 class="mt-3">6. Ограничение ответственности</h6><p>Habit не несет ответственности за результаты использования сервиса.</p><h6 class="mt-3">7. Прекращение использования</h6><p>Вы можете удалить свой аккаунт в любой момент в настройках профиля.</p><p class="text-muted mt-3"><small>Последнее обновление: 15 апреля 2026 г.</small></p></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Принимаю</button></div></div></div></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

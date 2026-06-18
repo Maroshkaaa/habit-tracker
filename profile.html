@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой профиль - Habit</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .profile-page { background: var(--light-bg); }
+        .profile-header-card { background: white; border-radius: 24px; padding: 2rem; box-shadow: var(--shadow-md); margin-bottom: 1.5rem; border: 1px solid rgba(58, 44, 41, 0.05); }
+        .profile-avatar-wrapper { position: relative; width: 120px; margin: 0 auto 1rem; cursor: pointer; }
+        .profile-avatar-large { width: 120px; height: 120px; border-radius: 50%; background: var(--gradient-accent); display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 700; color: var(--primary); border: 4px solid white; box-shadow: var(--shadow-lg); overflow: hidden; transition: all 0.3s ease; }
+        .profile-avatar-large img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-avatar-overlay { position: absolute; bottom: 0; right: 0; background: var(--accent); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 2px solid white; cursor: pointer; transition: all 0.3s ease; color: var(--primary); font-size: 0.8rem; }
+        .profile-avatar-overlay:hover { background: var(--primary); color: white; transform: scale(1.1); }
+        .profile-avatar-wrapper:hover .profile-avatar-large { filter: brightness(0.95); transform: scale(1.02); }
+        .profile-name { font-size: var(--font-size-xxl); font-weight: 700; color: var(--primary); margin-bottom: 0.25rem; }
+        .profile-username { color: var(--text-light); font-size: var(--font-size-base); margin-bottom: 0.5rem; }
+        .profile-bio { background: var(--light); border-radius: 16px; padding: 1.25rem; margin-bottom: 1.25rem; color: var(--text); font-size: var(--font-size-small); line-height: 1.6; border-left: 3px solid var(--accent); }
+        .profile-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+        .profile-stat-item { background: var(--light); border-radius: 16px; padding: 1rem 0.5rem; text-align: center; transition: all 0.3s ease; }
+        .profile-stat-item:hover { background: white; box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+        .profile-stat-value { font-size: var(--font-size-xxl); font-weight: 800; color: var(--primary); line-height: 1.2; margin-bottom: 0.25rem; }
+        .profile-stat-label { color: var(--text-light); font-size: 0.75rem; font-weight: 500; }
+        .profile-section-title { font-size: var(--font-size-large); font-weight: 700; color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .profile-section-title i { color: var(--accent); font-size: 1.2rem; }
+        .section-card { background: white; border-radius: 20px; padding: 1.5rem; box-shadow: var(--shadow-sm); border: 1px solid rgba(58, 44, 41, 0.05); margin-bottom: 1.5rem; }
+        .today-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+        .today-stat-card { background: var(--light); border-radius: 16px; padding: 0.85rem; display: flex; align-items: center; gap: 0.75rem; transition: all 0.2s ease; }
+        .today-stat-card:hover { background: white; box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+        .today-stat-icon { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+        .today-stat-info { flex: 1; }
+        .today-stat-value { font-size: 1.2rem; font-weight: 800; color: var(--primary); line-height: 1.2; }
+        .today-stat-label { font-size: 0.7rem; color: var(--text-light); }
+        .today-progress-card { background: var(--light); border-radius: 16px; padding: 0.85rem; margin-bottom: 0.75rem; }
+        .today-progress-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.8rem; color: var(--primary); }
+        .today-progress-footer { margin-top: 0.5rem; font-size: 0.7rem; }
+        .badge-preview { background: var(--light); border-radius: 16px; padding: 1rem; text-align: center; transition: all 0.3s ease; border: 1px solid transparent; }
+        .badge-preview.earned { background: white; border-color: var(--secondary); box-shadow: var(--shadow-sm); }
+        .badge-preview .badge-icon { width: 50px; height: 50px; border-radius: 50%; background: rgba(58, 44, 41, 0.1); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 0.75rem; color: var(--text-light); }
+        .badge-preview.earned .badge-icon { background: var(--secondary); color: var(--primary); }
+        .badge-preview span { font-size: 0.75rem; font-weight: 600; color: var(--primary); }
+        .profile-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+        .edit-profile-btn { background: var(--primary); color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 12px; font-weight: 600; font-size: var(--font-size-small); transition: all 0.3s; flex: 1; }
+        .edit-profile-btn:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .logout-btn { background: transparent; color: var(--danger); border: 2px solid var(--danger); padding: 0.6rem 1.5rem; border-radius: 12px; font-weight: 600; font-size: var(--font-size-small); transition: all 0.3s; flex: 1; }
+        .logout-btn:hover { background: var(--danger); color: white; transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .settings-btn { background: var(--light); color: var(--primary); border: 1px solid rgba(58, 44, 41, 0.1); padding: 0.6rem 1.5rem; border-radius: 12px; font-weight: 600; font-size: var(--font-size-small); transition: all 0.3s; flex: 1; }
+        .settings-btn:hover { background: white; border-color: var(--accent); }
+        .crop-container { width: 250px; height: 250px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent); position: relative; background: var(--light); display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+        .crop-container img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-options { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+        .avatar-preset { width: 60px; height: 60px; border-radius: 50%; background: var(--gradient-accent); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: var(--primary); cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
+        .avatar-preset:hover { transform: scale(1.05); border-color: var(--accent); }
+        .avatar-preset.selected { border-color: var(--primary); box-shadow: var(--shadow-md); }
+        @media (max-width: 768px) { .profile-avatar-wrapper { width: 100px; } .profile-avatar-large { width: 100px; height: 100px; font-size: 2.5rem; } .today-stats-grid { grid-template-columns: 1fr; gap: 0.5rem; } .profile-actions { flex-direction: column; } }
+    </style>
+</head>
+<body class="profile-page">
+    <div class="page-wrapper">
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Habit" style="height: 35px; width: auto;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto"></ul></div>
+            </div>
+        </nav>
+
+        <div class="notification-container" id="notificationContainer"></div>
+
+        <main class="content-wrapper">
+            <div class="page-content">
+                <div class="container">
+                    <div class="profile-header-card">
+                        <div class="row align-items-center">
+                            <div class="col-lg-3 text-center mb-4 mb-lg-0">
+                                <div class="profile-avatar-wrapper" id="avatarUploadTrigger">
+                                    <div class="profile-avatar-large" id="profileAvatar"><span id="avatarText">?</span></div>
+                                    <div class="profile-avatar-overlay" id="changeAvatarBtn"><i class="bi bi-camera-fill"></i></div>
+                                </div>
+                                <small class="text-muted d-block mt-2" style="font-size: 0.7rem;">Нажмите на фото для смены</small>
+                            </div>
+                            <div class="col-lg-9">
+                                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3"><div><h1 class="profile-name" id="profileName">Загрузка...</h1><p class="profile-username" id="profileUsername">@загрузка</p></div></div>
+                                <div class="profile-bio" id="profileBio">Загрузка информации...</div>
+                                <div class="profile-stats-grid">
+                                    <div class="profile-stat-item"><div class="profile-stat-value" id="statHabits">0</div><div class="profile-stat-label">Привычек</div></div>
+                                    <div class="profile-stat-item"><div class="profile-stat-value" id="statStreak">0</div><div class="profile-stat-label">Лучшая серия</div></div>
+                                    <div class="profile-stat-item"><div class="profile-stat-value" id="statAchievements">0</div><div class="profile-stat-label">Достижения</div></div>
+                                </div>
+                                <div class="d-flex flex-wrap gap-3 justify-content-between align-items-center">
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <div class="text-muted" style="font-size: var(--font-size-small);"><i class="bi bi-calendar me-1"></i>На сайте с: <strong id="memberSince">—</strong></div>
+                                        <div class="text-muted" style="font-size: var(--font-size-small);"><i class="bi bi-trophy me-1"></i>Уровень: <strong id="userLevelProfile">1</strong></div>
+                                    </div>
+                                </div>
+                                <div class="profile-actions mt-3">
+                                    <button class="edit-profile-btn" data-bs-toggle="modal" data-bs-target="#editProfileModal"><i class="bi bi-pencil-square me-2"></i>Редактировать</button>
+                                    <button class="settings-btn" onclick="window.location.href='settings.html'"><i class="bi bi-gear me-2"></i>Настройки</button>
+                                    <button class="logout-btn" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Выйти</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-lg-4">
+                            <div class="section-card"><h3 class="profile-section-title"><i class="bi bi-trophy-fill"></i>Последние достижения</h3><div class="row g-2" id="recentBadgesContainer"></div><div class="text-center mt-3"><a href="stats.html" class="btn btn-sm btn-outline-primary">Все достижения</a></div></div>
+                            <div class="section-card"><h3 class="profile-section-title"><i class="bi bi-tags"></i>Любимые категории</h3><p class="text-muted" style="font-size: var(--font-size-small); margin-bottom: 0.75rem;">Чаще всего вы выполняете:</p><div class="d-flex flex-wrap gap-2" id="categoryTags"><span class="text-muted" style="font-size: var(--font-size-small);">Нет данных</span></div></div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="section-card"><h3 class="profile-section-title"><i class="bi bi-bar-chart-steps"></i>Статистика за сегодня</h3><div id="activityContainer"><div class="text-center py-4"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Загрузка...</span></div></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer"><div class="container"><div class="row"><div class="col-md-6"><p class="mb-0">&copy; 2026 Habit. Все права защищены.</p></div><div class="col-md-6 text-md-end"><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal" class="me-3">Политика конфиденциальности</a><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Условия использования</a></div></div></div></footer>
+
+        <div class="modal fade" id="privacyModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-shield-lock me-2"></i>Политика конфиденциальности</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><h6>1. Общие положения</h6><p>Настоящая Политика конфиденциальности является неотъемлемой частью Пользовательского соглашения Habit.</p><h6 class="mt-3">2. Какие данные мы собираем</h6><p>Имя, email, логин, информация о привычках и прогрессе, технические данные.</p><h6 class="mt-3">3. Как мы используем данные</h6><p>Для предоставления сервиса, персонализации, аналитики.</p><h6 class="mt-3">4. Защита данных</h6><p>Мы принимаем все необходимые меры для защиты ваших данных.</p><h6 class="mt-3">5. Изменение политики</h6><p>Мы оставляем за собой право вносить изменения в настоящую Политику конфиденциальности.</p><p class="text-muted mt-3"><small>Последнее обновление: 15 апреля 2026 г.</small></p></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Понятно</button></div></div></div></div>
+
+        <div class="modal fade" id="termsModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-file-text me-2"></i>Условия использования</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><h6>1. Принятие условий</h6><p>Регистрируясь и используя сервис Habit, вы соглашаетесь с настоящими Условиями.</p><h6 class="mt-3">2. Описание сервиса</h6><p>Habit — платформа для отслеживания и формирования полезных привычек.</p><h6 class="mt-3">3. Обязанности пользователя</h6><ul><li>Предоставлять достоверную информацию</li><li>Не нарушать работу сервиса</li><li>Уважать других пользователей</li></ul><h6 class="mt-3">4. Контент пользователей</h6><p>Вы сохраняете права на создаваемый вами контент.</p><h6 class="mt-3">5. Ограничение ответственности</h6><p>Habit не несет ответственности за результаты использования сервиса.</p><h6 class="mt-3">6. Прекращение использования</h6><p>Вы можете удалить свой аккаунт в любой момент в настройках профиля.</p><p class="text-muted mt-3"><small>Последнее обновление: 15 апреля 2026 г.</small></p></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Принимаю</button></div></div></div></div>
+    </div>
+
+    <div class="modal fade" id="editProfileModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Редактировать профиль</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><form id="editProfileForm"><div class="mb-3"><label class="form-label">Имя</label><input type="text" class="form-control" id="editName" placeholder="Ваше имя"></div><div class="mb-3"><label class="form-label">О себе</label><textarea class="form-control" id="editBio" rows="3" placeholder="Расскажите о себе..."></textarea></div><div class="mb-3"><label class="form-label">Логин</label><input type="text" class="form-control" id="editUsername" placeholder="Логин"><small class="text-muted">Логин используется для входа</small></div><div class="alert alert-info py-2" style="font-size: var(--font-size-small);"><i class="bi bi-info-circle me-2"></i>Для смены пароля и других настроек перейдите в <a href="settings.html" class="alert-link">настройки</a>.</div></form></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button><button type="button" class="btn btn-primary" id="saveProfileBtn">Сохранить изменения</button></div></div></div></div>
+
+    <div class="modal fade" id="avatarModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Сменить фото профиля</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="text-center mb-3"><div class="crop-container" id="cropContainer"><img id="avatarPreview" src="" alt="Preview" style="display: none;"><span id="previewPlaceholder" style="font-size: 4rem;">📷</span></div></div><div class="mb-3"><label class="form-label w-100 text-center">Загрузить новое фото</label><input type="file" class="form-control" id="avatarUpload" accept="image/jpeg,image/png,image/jpg,image/gif"><small class="text-muted d-block text-center mt-1">Рекомендуемый размер: квадратное изображение</small></div><div class="avatar-options"><div class="avatar-preset" data-letter="👤"><span>👤</span></div><div class="avatar-preset" data-letter="😊"><span>😊</span></div><div class="avatar-preset" data-letter="🌟"><span>🌟</span></div><div class="avatar-preset" data-letter="🎯"><span>🎯</span></div><div class="avatar-preset" data-letter="💪"><span>💪</span></div><div class="avatar-preset" data-letter="🧘"><span>🧘</span></div><div class="avatar-preset" data-letter="🐱"><span>🐱</span></div><div class="avatar-preset" data-letter="🚀"><span>🚀</span></div></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button><button type="button" class="btn btn-primary" id="saveAvatarBtn">Сохранить фото</button></div></div></div></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

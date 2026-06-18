@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Календарь привычек - Habit</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .calendar-page { background: var(--light-bg); }
+        .calendar-wrapper { padding: 1rem 0; }
+        .calendar-nav-bar { background: white; border-radius: 16px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-md); display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .calendar-nav-btn { width: 40px; height: 40px; border-radius: 10px; border: 1px solid rgba(58, 44, 41, 0.1); background: var(--light); color: var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 1.2rem; }
+        .calendar-nav-btn:hover { background: var(--accent); color: var(--primary); border-color: var(--accent); transform: translateY(-1px); }
+        .calendar-month-label { font-size: 1.1rem; font-weight: 700; color: var(--primary); min-width: 200px; text-align: center; }
+        .btn-today-calendar { background: var(--primary); color: white; border: none; padding: 0.45rem 1.2rem; border-radius: 10px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+        .btn-today-calendar:hover { background: var(--primary-light); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+        .calendar-card { background: white; border-radius: 16px; padding: 0.75rem 0.75rem 0.75rem 0.75rem; box-shadow: var(--shadow-lg); height: 100%; width: 100%; display: flex; flex-direction: column; }
+        .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-bottom: 3px; }
+        .weekday { text-align: center; font-weight: 600; color: var(--primary); padding: 0.35rem 0; font-size: 0.78rem; background: var(--light); border-radius: 5px; }
+        .calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; flex: 1; }
+        .calendar-day { background: var(--light); border-radius: 5px; cursor: pointer; transition: all 0.2s; position: relative; border: 2px solid transparent; padding: 5px; min-height: 80px; display: flex; flex-direction: column; width: 100%; box-sizing: border-box; }
+        .calendar-day:hover { background: white; border-color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+        .calendar-day.today { background: var(--primary); color: white; border-color: var(--primary); }
+        .calendar-day.today .day-number { color: white; font-weight: 700; }
+        .calendar-day.empty { background: transparent; cursor: default; min-height: 80px; border: none; }
+        .calendar-day.empty:hover { transform: none; box-shadow: none; border-color: transparent; background: transparent; }
+        .day-number { font-weight: 600; color: var(--primary); font-size: 0.78rem; margin-bottom: 2px; display: block; }
+        .day-habits { display: flex; flex-direction: column; gap: 1px; flex: 1; }
+        .habit-indicator { font-size: 0.58rem; padding: 1px 4px; background: white; border-radius: 3px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
+        .calendar-day.today .habit-indicator { background: rgba(255,255,255,0.2); color: white; }
+        .habit-indicator.completed { background: var(--secondary); color: var(--primary); font-weight: 500; }
+        .completion-badge { position: absolute; top: 2px; right: 2px; background: var(--secondary); color: var(--primary); padding: 1px 4px; border-radius: 3px; font-size: 0.5rem; font-weight: 700; }
+        .calendar-day.today .completion-badge { background: var(--accent); }
+        .right-column { height: 100%; display: flex; flex-direction: column; gap: 1rem; }
+        .stats-card { background: white; border-radius: 16px; padding: 1.25rem; box-shadow: var(--shadow-md); }
+        .stats-card h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .stats-card h3 i { color: var(--accent); font-size: 1rem; }
+        .stats-list { display: flex; flex-direction: column; gap: 0.6rem; }
+        .stat-row { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.85rem; background: var(--light); border-radius: 10px; }
+        .stat-info { display: flex; flex-direction: column; }
+        .stat-label { color: var(--text-light); font-size: 0.7rem; }
+        .stat-value { font-size: 1.1rem; font-weight: 700; color: var(--primary); line-height: 1.2; }
+        .stat-icon-small { width: 32px; height: 32px; border-radius: 8px; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
+        .upcoming-card { background: white; border-radius: 16px; padding: 1.25rem; box-shadow: var(--shadow-md); flex: 1; }
+        .upcoming-card h3 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .upcoming-card h3 i { color: var(--accent); font-size: 1rem; }
+        .upcoming-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .upcoming-item { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0.65rem; background: var(--light); border-radius: 8px; transition: all 0.2s; }
+        .upcoming-item:hover { background: white; box-shadow: var(--shadow-sm); transform: translateX(3px); }
+        .upcoming-item.soon { background: rgba(217, 179, 130, 0.15); border-left: 3px solid var(--accent); }
+        .upcoming-info h6 { font-weight: 600; color: var(--primary); font-size: 0.8rem; margin-bottom: 0.05rem; }
+        .upcoming-info small { color: var(--text-light); font-size: 0.65rem; }
+        .upcoming-time { background: white; padding: 0.15rem 0.5rem; border-radius: 20px; font-size: 0.65rem; font-weight: 600; color: var(--primary); white-space: nowrap; }
+        .legend { background: white; border-radius: 10px; padding: 0.5rem 1rem; display: flex; gap: 1.5rem; justify-content: center; margin-top: 0.5rem; box-shadow: var(--shadow-sm); flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.7rem; color: var(--text); }
+        .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+        .legend-dot.today { background: var(--primary); }
+        .legend-dot.completed { background: var(--secondary); }
+        .legend-dot.partial { background: var(--accent); }
+        @media (max-width: 992px) { .right-column { margin-top: 1rem; } }
+        @media (max-width: 768px) { .calendar-card { padding: 0.5rem; } .calendar-day { min-height: 60px; padding: 3px; } .day-number { font-size: 0.68rem; margin-bottom: 1px; } .weekday { font-size: 0.68rem; padding: 0.25rem 0; } .calendar-nav-bar { padding: 0.75rem 1rem; } .calendar-month-label { font-size: 0.95rem; min-width: 150px; } .habit-indicator { font-size: 0.5rem; } }
+        @media (max-width: 480px) { .calendar-day { min-height: 45px; padding: 2px; } .day-number { font-size: 0.6rem; } .habit-indicator { font-size: 0.45rem; padding: 1px 2px; } .completion-badge { font-size: 0.45rem; padding: 1px 2px; } }
+    </style>
+</head>
+<body class="calendar-page">
+    <div class="page-wrapper">
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Habit" style="height: 35px; width: auto;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto"></ul></div>
+            </div>
+        </nav>
+
+        <div class="notification-container" id="notificationContainer"></div>
+
+        <main class="content-wrapper">
+            <div class="calendar-wrapper">
+                <div class="container">
+                    <section class="page-header-section"><div class="page-title-wrapper"><h1 class="page-title">Календарь привычек</h1><p class="page-subtitle">Отслеживай прогресс по дням</p></div></section>
+                    <div class="calendar-nav-bar">
+                        <button class="calendar-nav-btn" id="prevMonth"><i class="bi bi-chevron-left"></i></button>
+                        <span class="calendar-month-label" id="currentMonth">Апрель 2026</span>
+                        <button class="calendar-nav-btn" id="nextMonth"><i class="bi bi-chevron-right"></i></button>
+                        <button class="btn-today-calendar" id="todayBtn"><i class="bi bi-calendar-event me-1"></i>Сегодня</button>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-lg-8">
+                            <div class="calendar-card">
+                                <div class="weekdays"><div class="weekday">Пн</div><div class="weekday">Вт</div><div class="weekday">Ср</div><div class="weekday">Чт</div><div class="weekday">Пт</div><div class="weekday">Сб</div><div class="weekday">Вс</div></div>
+                                <div class="calendar-days" id="calendarContainer"></div>
+                            </div>
+                            <div class="legend"><div class="legend-item"><div class="legend-dot today"></div><span>Сегодня</span></div><div class="legend-item"><div class="legend-dot completed"></div><span>Выполнено</span></div><div class="legend-item"><div class="legend-dot partial"></div><span>Частично</span></div></div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="right-column">
+                                <div class="stats-card">
+                                    <h3><i class="bi bi-graph-up"></i>Статистика месяца</h3>
+                                    <div class="stats-list">
+                                        <div class="stat-row"><div class="stat-info"><span class="stat-label">Выполнение</span><span class="stat-value" id="monthStats">0%</span></div><div class="stat-icon-small"><i class="bi bi-calendar-check"></i></div></div>
+                                        <div class="stat-row"><div class="stat-info"><span class="stat-label">Всего выполнено</span><span class="stat-value" id="totalCompleted">0</span></div><div class="stat-icon-small"><i class="bi bi-check-circle"></i></div></div>
+                                        <div class="stat-row"><div class="stat-info"><span class="stat-label">Лучшая серия</span><span class="stat-value" id="currentStreakCalendar">0</span></div><div class="stat-icon-small"><i class="bi bi-fire"></i></div></div>
+                                    </div>
+                                </div>
+                                <div class="upcoming-card">
+                                    <h3><i class="bi bi-clock-history"></i>Предстоит сегодня</h3>
+                                    <div class="upcoming-list" id="upcomingHabits"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer"><div class="container"><div class="row"><div class="col-md-6"><p class="mb-0">&copy; 2026 Habit. Все права защищены.</p></div><div class="col-md-6 text-md-end"><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal" class="me-3">Политика конфиденциальности</a><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Условия использования</a></div></div></div></footer>
+
+        <div class="modal fade" id="privacyModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-shield-lock me-2"></i>Политика конфиденциальности</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><h6>1. Общие положения</h6><p>Настоящая Политика конфиденциальности является неотъемлемой частью Пользовательского соглашения Habit.</p><h6 class="mt-3">2. Какие данные мы собираем</h6><p>Имя, email, логин, информация о привычках и прогрессе, технические данные.</p><h6 class="mt-3">3. Как мы используем данные</h6><p>Для предоставления сервиса, персонализации, аналитики.</p><h6 class="mt-3">4. Защита данных</h6><p>Мы принимаем все необходимые меры для защиты ваших данных.</p><p class="text-muted mt-3"><small>Последнее обновление: 15 апреля 2026 г.</small></p></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Понятно</button></div></div></div></div>
+
+        <div class="modal fade" id="termsModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-file-text me-2"></i>Условия использования</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><h6>1. Принятие условий</h6><p>Регистрируясь и используя сервис Habit, вы соглашаетесь с настоящими Условиями.</p><h6 class="mt-3">2. Описание сервиса</h6><p>Habit — платформа для отслеживания и формирования полезных привычек.</p><h6 class="mt-3">3. Обязанности пользователя</h6><ul><li>Предоставлять достоверную информацию</li><li>Не нарушать работу сервиса</li><li>Не использовать сервис для незаконных целей</li><li>Уважать других пользователей</li></ul><h6 class="mt-3">4. Контент пользователей</h6><p>Вы сохраняете права на создаваемый вами контент.</p><h6 class="mt-3">5. Ограничение ответственности</h6><p>Habit не несет ответственности за результаты использования сервиса.</p><h6 class="mt-3">6. Прекращение использования</h6><p>Вы можете удалить свой аккаунт в любой момент в настройках профиля.</p><p class="text-muted mt-3"><small>Последнее обновление: 15 апреля 2026 г.</small></p></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Принимаю</button></div></div></div></div>
+    </div>
+
+    <div class="modal fade" id="dayDetailsModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="dayDetailsDate"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div id="dayHabitsList"></div></div></div></div></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/calendar.js"></script>
+</body>
+</html>

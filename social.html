@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вдохновение - Habit</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .inspiration-page { background: var(--light-bg); }
+        .inspiration-wrapper { padding: 1rem 0; }
+        .inspiration-hero { background: var(--gradient); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; color: white; position: relative; overflow: hidden; box-shadow: var(--shadow-lg); }
+        .inspiration-hero::before { content: '"'; position: absolute; bottom: -30px; right: 30px; font-size: 12rem; opacity: 0.1; font-family: serif; color: white; }
+        .inspiration-hero h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; position: relative; z-index: 2; }
+        .inspiration-hero p { font-size: 0.95rem; opacity: 0.9; max-width: 500px; position: relative; z-index: 2; }
+        .daily-quote-card { background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-md); border: 1px solid rgba(58, 44, 41, 0.05); position: relative; }
+        .daily-quote-card small { color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.7rem; }
+        .daily-quote-text { font-size: 1.2rem; font-weight: 600; color: var(--primary); margin: 0.5rem 0; line-height: 1.4; font-style: italic; }
+        .daily-quote-author { color: var(--text-light); font-size: 0.9rem; display: flex; align-items: center; gap: 0.75rem; }
+        .daily-quote-author::before { content: ''; width: 30px; height: 2px; background: var(--accent); display: inline-block; }
+        .categories-cloud { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.5rem; }
+        .category-tag { padding: 0.35rem 1rem; background: white; border-radius: 30px; font-size: 0.8rem; font-weight: 500; color: var(--primary); border: 1px solid rgba(58, 44, 41, 0.1); transition: all 0.2s; cursor: pointer; }
+        .category-tag:hover, .category-tag.active { background: var(--accent); color: var(--primary); border-color: var(--accent); }
+        .section-title { font-size: 1.4rem; font-weight: 700; color: var(--primary); margin-bottom: 1.5rem; position: relative; display: inline-block; }
+        .section-title::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 50px; height: 3px; background: var(--accent); border-radius: 2px; }
+        .ideas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .idea-card { background: white; border-radius: 16px; padding: 1.25rem; box-shadow: var(--shadow-sm); transition: all 0.3s; border: 1px solid rgba(58, 44, 41, 0.05); cursor: pointer; height: 100%; }
+        .idea-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: var(--accent); }
+        .idea-icon { width: 50px; height: 50px; border-radius: 16px; background: rgba(217, 179, 130, 0.1); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; color: var(--accent); }
+        .idea-title { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.35rem; }
+        .idea-description { color: var(--text-light); font-size: 0.8rem; margin-bottom: 0.75rem; line-height: 1.5; }
+        .idea-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--light-bg); }
+        .idea-category { background: var(--light); padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; color: var(--primary); }
+        .idea-likes { color: var(--text-light); font-size: 0.75rem; }
+        .idea-likes i { color: var(--accent); margin-right: 0.2rem; font-size: 0.7rem; }
+        .stories-section { margin-top: 2rem; }
+        .stories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .story-card { background: white; border-radius: 16px; padding: 1.5rem; box-shadow: var(--shadow-md); position: relative; }
+        .story-card::before { content: '"'; position: absolute; top: 15px; right: 20px; font-size: 4rem; color: var(--accent); opacity: 0.2; font-family: serif; }
+        .story-author { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+        .story-avatar { width: 40px; height: 40px; border-radius: 12px; background: var(--gradient-accent); display: flex; align-items: center; justify-content: center; color: var(--primary); font-weight: 700; font-size: 1rem; }
+        .story-author-info h6 { font-weight: 700; color: var(--primary); margin-bottom: 0.1rem; font-size: 0.9rem; }
+        .story-author-info small { color: var(--text-light); font-size: 0.7rem; }
+        .story-text { color: var(--text); line-height: 1.5; font-size: 0.85rem; margin-bottom: 1rem; font-style: italic; }
+        .story-stats { display: flex; gap: 1rem; color: var(--text-light); font-size: 0.75rem; }
+        .story-stats i { color: var(--accent); margin-right: 0.2rem; }
+        .modal-idea { border-radius: 20px; }
+        .modal-idea .modal-header { border-bottom: 1px solid var(--light-bg); padding: 1rem 1.25rem; }
+        .modal-idea .modal-body { padding: 1.25rem; }
+        .idea-detail-icon { width: 70px; height: 70px; border-radius: 20px; background: rgba(217, 179, 130, 0.1); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--accent); margin: 0 auto 1.5rem; }
+        .btn-add-habit { background: var(--primary); color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 12px; font-weight: 600; width: 100%; transition: all 0.3s; font-size: 0.9rem; }
+        .btn-add-habit:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        @media (max-width: 992px) { .stories-grid { grid-template-columns: repeat(2, 1fr); } .ideas-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .inspiration-hero { padding: 1.5rem; } .inspiration-hero h1 { font-size: 1.5rem; } .daily-quote-text { font-size: 1rem; } .stories-grid { grid-template-columns: 1fr; } .ideas-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body class="inspiration-page">
+    <div class="page-wrapper">
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Habit" style="height: 35px; width: auto;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto"></ul></div>
+            </div>
+        </nav>
+
+        <div class="notification-container" id="notificationContainer"></div>
+
+        <main class="content-wrapper">
+            <div class="inspiration-wrapper">
+                <div class="container">
+                    <div class="inspiration-hero"><h1>Доска вдохновения</h1><p>Идеи, истории и советы, которые помогут тебе стать лучше каждый день</p></div>
+
+                    <div class="daily-quote-card" id="dailyQuote"><small>ЦИТАТА ДНЯ</small><div class="daily-quote-text">"Единственный способ сделать великую работу — любить то, что ты делаешь."</div><div class="daily-quote-author">Стив Джобс</div></div>
+
+                    <div class="categories-cloud"><span class="category-tag active">Все</span><span class="category-tag">🏃 Здоровье</span><span class="category-tag">📚 Образование</span><span class="category-tag">🧠 Продуктивность</span><span class="category-tag">🧘 Осознанность</span><span class="category-tag">💪 Спорт</span><span class="category-tag">🎨 Творчество</span></div>
+
+                    <h2 class="section-title">Идеи для привычек</h2>
+                    <div class="ideas-grid" id="ideasContainer"></div>
+
+                    <div class="stories-section">
+                        <h2 class="section-title">Истории успеха</h2>
+                        <div class="stories-grid" id="storiesContainer"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer"><div class="container"><div class="row"><div class="col-md-6"><p class="mb-0">&copy; 2026 Habit. Все права защищены.</p></div><div class="col-md-6 text-md-end"><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal" class="me-3">Политика конфиденциальности</a><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Условия использования</a></div></div></div></footer>
+
+        <div class="modal fade" id="privacyModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-shield-lock me-2"></i>Политика конфиденциальности</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><h6>1. Общие положения</h6><p>Настоящая Политика конфиденциальности является неотъемлемой частью Пользовательского соглашения Habit.</p><h6 class="mt-3">2. Какие данные мы собираем</h6><p>Имя, email, логин, информация о привычках и прогрессе, технические данные.</p><h6 class="mt-3">3. Как мы используем данные</h6><p>Для предоставления сервиса, персонализации, аналитики.</p><h6 class="mt-3">4. Защита данных</h6><p>Мы принимаем все необходимые меры для защиты ваших данных.</p><p class="text-muted mt-3"><small>Последнее обновление: 15 апреля 2026 г.</small></p></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Понятно</button></div></div></div></div>
+
+        <div class="modal fade" id="termsModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-file-text me-2"></i>Условия использования</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><h6>1. Принятие условий</h6><p>Регистрируясь и используя сервис Habit, вы соглашаетесь с настоящими Условиями.</p><h6 class="mt-3">2. Описание сервиса</h6><p>Habit — платформа для отслеживания и формирования полезных привычек.</p><h6 class="mt-3">3. Обязанности пользователя</h6><ul><li>Предоставлять достоверную информацию</li><li>Не нарушать работу сервиса</li><li>Уважать других пользователей</li></ul><p class="text-muted mt-3"><small>Последнее обновление: 15 апреля 2026 г.</small></p></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Принимаю</button></div></div></div></div>
+    </div>
+
+    <div class="modal fade" id="ideaModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content modal-idea"><div class="modal-header"><h5 class="modal-title" id="ideaModalTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body text-center"><div class="idea-detail-icon" id="ideaModalIcon"></div><p class="mb-4" id="ideaModalDescription"></p><p class="text-muted mb-4" id="ideaModalBenefits"></p><button class="btn-add-habit" onclick="addIdeaAsHabit()"><i class="bi bi-plus-circle me-2"></i>Добавить как привычку</button></div></div></div></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        const dailyQuotes = [
+            { text: "Единственный способ сделать великую работу — любить то, что ты делаешь.", author: "Стив Джобс" },
+            { text: "Начинай с малого, но думай о великом.", author: "Дэвид Аллен" },
+            { text: "Каждый день — это новая возможность изменить свою жизнь.", author: "Unknown" },
+            { text: "Дисциплина — это мост между целями и достижениями.", author: "Джим Рон" },
+            { text: "Ты не обязан быть великим, чтобы начать. Но ты должен начать, чтобы стать великим.", author: "Зиг Зиглар" }
+        ];
+        const ideas = [
+            { id: 1, icon: "🏃", title: "Утренняя зарядка", description: "Начни день с 10 минут легкой разминки.", benefits: "Повышает тонус, улучшает настроение, ускоряет метаболизм", category: "Здоровье", likes: 124, time: "08:00" },
+            { id: 2, icon: "📚", title: "15 минут чтения", description: "Читай по 15 минут каждый день.", benefits: "Развивает мышление, расширяет словарный запас", category: "Образование", likes: 89, time: "21:00" },
+            { id: 3, icon: "💧", title: "Питьевой режим", description: "Выпивай стакан воды сразу после пробуждения.", benefits: "Улучшает пищеварение, очищает организм", category: "Здоровье", likes: 256, time: "08:00" },
+            { id: 4, icon: "🧘", title: "Минута тишины", description: "Находи 5 минут в день, чтобы просто побыть в тишине.", benefits: "Снижает тревожность, улучшает концентрацию", category: "Осознанность", likes: 67, time: "07:00" },
+            { id: 5, icon: "📝", title: "Дневник благодарности", description: "Каждый вечер записывай 3 вещи, за которые ты благодарен.", benefits: "Учит замечать хорошее, повышает уровень счастья", category: "Осознанность", likes: 145, time: "22:00" },
+            { id: 6, icon: "🚶", title: "Прогулка", description: "Гуляй 20 минут в день без телефона.", benefits: "Улучшает кровообращение, снижает стресс", category: "Здоровье", likes: 98, time: "13:00" }
+        ];
+        const stories = [
+            { author: "Екатерина", avatar: "Е", title: "30 дней без сахара", text: "Я не думала, что смогу, но через неделю тяга к сладкому пропала. Стала лучше спать и похудела на 3 кг!", likes: 45, comments: 12 },
+            { author: "Алексей", avatar: "А", title: "От дивана до полумарафона", text: "Начал с 10 минут бега в день. Через год пробежал свой первый полумарафон!", likes: 78, comments: 23 },
+            { author: "Мария", avatar: "М", title: "Английский за чашкой кофе", text: "Учила по 10 новых слов за завтраком. Через год смогла смотреть сериалы в оригинале!", likes: 56, comments: 15 }
+        ];
+        let currentIdea = null;
+
+        function initSocialPage() { loadDailyQuote(); loadIdeas(); loadStories(); setupFilterListeners(); }
+        function loadDailyQuote() { const container = document.getElementById('dailyQuote'); if (!container) return; const randomIndex = Math.floor(Math.random() * dailyQuotes.length); const quote = dailyQuotes[randomIndex]; container.innerHTML = `<small>ЦИТАТА ДНЯ</small><div class="daily-quote-text">"${quote.text}"</div><div class="daily-quote-author">${quote.author}</div>`; }
+        function loadIdeas() { const container = document.getElementById('ideasContainer'); if (!container) return; container.innerHTML = ideas.map(idea => `<div class="idea-card" onclick="showIdeaDetails(${idea.id})"><div class="idea-icon">${idea.icon}</div><div class="idea-title">${idea.title}</div><div class="idea-description">${idea.description}</div><div class="idea-meta"><span class="idea-category">${idea.category}</span><span class="idea-likes"><i class="bi bi-heart-fill"></i> ${idea.likes}</span></div></div>`).join(''); }
+        function loadStories() { const container = document.getElementById('storiesContainer'); if (!container) return; container.innerHTML = stories.map(story => `<div class="story-card"><div class="story-author"><div class="story-avatar">${story.avatar}</div><div class="story-author-info"><h6>${story.author}</h6><small>${story.title}</small></div></div><div class="story-text">${story.text}</div><div class="story-stats"><span><i class="bi bi-heart"></i> ${story.likes}</span><span><i class="bi bi-chat"></i> ${story.comments}</span></div></div>`).join(''); }
+        function showIdeaDetails(ideaId) { const idea = ideas.find(i => i.id === ideaId); if (!idea) return; currentIdea = idea; document.getElementById('ideaModalTitle').textContent = idea.title; document.getElementById('ideaModalIcon').innerHTML = idea.icon; document.getElementById('ideaModalDescription').innerHTML = `<strong>${idea.description}</strong>`; document.getElementById('ideaModalBenefits').innerHTML = `<i class="bi bi-stars me-2" style="color: var(--accent);"></i>${idea.benefits}`; new bootstrap.Modal(document.getElementById('ideaModal')).show(); }
+        function addIdeaAsHabit() { if (!currentIdea) return; if (!authData.currentUser) { showNotification('🔒 Пожалуйста, войдите в систему', 'warning'); setTimeout(() => window.location.href = 'login.html', 1500); return; } const newHabit = { id: Date.now(), name: currentIdea.title, description: currentIdea.description, time: currentIdea.time || '08:00', difficulty: 2, category: currentIdea.category === 'Здоровье' ? 'health' : currentIdea.category === 'Образование' ? 'education' : currentIdea.category === 'Осознанность' ? 'mindfulness' : 'other', userId: authData.currentUser?.id, userName: authData.currentUser?.username, createdAt: new Date().toISOString(), streak: 0, completedToday: false, history: [], status: 'pending' }; if (!moderationData.pendingHabits) moderationData.pendingHabits = []; moderationData.pendingHabits.push(newHabit); saveUserData(); const modal = bootstrap.Modal.getInstance(document.getElementById('ideaModal')); if (modal) modal.hide(); showNotification('✨ Идея добавлена в привычки!', 'success'); }
+        function setupFilterListeners() { document.querySelectorAll('.category-tag').forEach(tag => { tag.addEventListener('click', function() { document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active')); this.classList.add('active'); const category = this.textContent.replace(/[🏃📚🧠🧘💪🎨]/g, '').trim(); if (category === 'Все') { loadIdeas(); } else { const container = document.getElementById('ideasContainer'); const filteredIdeas = ideas.filter(idea => idea.category === category); if (filteredIdeas.length === 0) { container.innerHTML = `<div class="col-12"><div class="text-center py-5"><i class="bi bi-inbox display-1 text-muted mb-4"></i><h5 class="text-muted">Нет идей в этой категории</h5></div></div>`; } else { container.innerHTML = filteredIdeas.map(idea => `<div class="idea-card" onclick="showIdeaDetails(${idea.id})"><div class="idea-icon">${idea.icon}</div><div class="idea-title">${idea.title}</div><div class="idea-description">${idea.description}</div><div class="idea-meta"><span class="idea-category">${idea.category}</span><span class="idea-likes"><i class="bi bi-heart-fill"></i> ${idea.likes}</span></div></div>`).join(''); } } }); }); }
+        window.initSocialPage = initSocialPage; window.showIdeaDetails = showIdeaDetails; window.addIdeaAsHabit = addIdeaAsHabit;
+        document.addEventListener('DOMContentLoaded', function() { if (typeof initSocialPage === 'function') initSocialPage(); });
+    </script>
+</body>
+</html>

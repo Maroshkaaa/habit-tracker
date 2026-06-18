@@ -1,0 +1,351 @@
+/* Дополнительные стили для новых функций */
+
+/* Календарь */
+.calendar-grid {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.calendar-weekday {
+    font-weight: 600;
+    color: var(--primary);
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.calendar-day {
+    min-height: 100px;
+    padding: 0.5rem;
+    border: 1px solid var(--light-bg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.calendar-day:hover {
+    background: var(--light);
+    transform: scale(1.02);
+    z-index: 1;
+    box-shadow: var(--shadow-md);
+}
+
+.calendar-day.today {
+    background: rgba(217, 179, 130, 0.1);
+    border: 2px solid var(--accent);
+}
+
+.day-number {
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.day-habits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.day-habit {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+}
+
+.day-habit.completed {
+    background: var(--secondary-dark);
+    color: white;
+}
+
+.habit-count {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    margin-left: 2px;
+}
+
+/* Социальные карточки */
+.friend-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.friend-card:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+}
+
+.friend-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gradient-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.challenge-card {
+    background: linear-gradient(135deg, white 0%, var(--light) 100%);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--secondary);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.challenge-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.feed-item {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.feed-item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+}
+
+.feed-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-right: 1rem;
+}
+
+.feed-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.feed-actions .btn-link {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+}
+
+.feed-actions .btn-link:hover {
+    color: var(--accent);
+}
+
+/* Мотивационные блоки */
+.quote-card {
+    background: var(--gradient-accent);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    color: var(--primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.quote-icon {
+    font-size: 3rem;
+    opacity: 0.2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.quote-text {
+    font-size: 1.25rem;
+    font-style: italic;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.quote-author {
+    font-weight: 600;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.challenge-card-small {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--light-bg);
+    box-shadow: var(--shadow-sm);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    text-align: center;
+}
+
+.stat-item {
+    padding: 1rem;
+    background: var(--light);
+    border-radius: 12px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+/* Аналитика */
+.heatmap {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    overflow-x: auto;
+}
+
+.heatmap-months {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    margin-bottom: 1rem;
+    padding-left: 40px;
+}
+
+.heatmap-month {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    text-align: center;
+}
+
+.heatmap-weeks {
+    display: flex;
+    gap: 2px;
+}
+
+.heatmap-week {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.heatmap-day {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    background: var(--light-bg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.heatmap-day:hover {
+    transform: scale(1.5);
+    z-index: 1;
+    box-shadow: var(--shadow-sm);
+}
+
+.heatmap-day.intensity-1 { background: var(--secondary); opacity: 0.3; }
+.heatmap-day.intensity-2 { background: var(--secondary); opacity: 0.5; }
+.heatmap-day.intensity-3 { background: var(--secondary); opacity: 0.7; }
+.heatmap-day.intensity-4 { background: var(--secondary-dark); }
+
+.insight-item {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    border-left: 3px solid var(--secondary);
+}
+
+.recommendation-item {
+    background: var(--light);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.recommendation-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Адаптивность для новых компонентов */
+@media (max-width: 768px) {
+    .calendar-day {
+        min-height: 60px;
+        font-size: 0.85rem;
+    }
+    
+    .day-number {
+        font-size: 0.85rem;
+    }
+    
+    .heatmap {
+        padding: 1rem;
+    }
+    
+    .heatmap-day {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Исправление для графиков */
+.chart-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px !important;
+    width: 100% !important;
+}
+
+canvas {
+    display: block;
+    width: 100% !important;
+    height: 300px !important;
+    max-height: 300px !important;
+}

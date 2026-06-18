@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои привычки - Habit</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="habits-page">
+    <div class="page-wrapper">
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="Habit" style="height: 35px; width: auto;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto"></ul></div>
+            </div>
+        </nav>
+
+        <div class="notification-container" id="notificationContainer"></div>
+
+        <main class="content-wrapper">
+            <section class="page-header-section">
+                <div class="container">
+                    <div class="page-title-wrapper"><h1 class="page-title">Мои привычки</h1><p class="page-subtitle">Управляй привычками и отслеживай прогресс</p></div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addHabitModal"><i class="bi bi-plus-lg me-1"></i>Личная</button>
+                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addPublicHabitModal"><i class="bi bi-globe me-1"></i>Публичная</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="page-content">
+                <div class="container">
+                    <div class="progress-card-top">
+                        <div class="row align-items-center">
+                            <div class="col-md-8"><h5 class="progress-title">Сегодняшний прогресс</h5><p class="progress-subtitle" id="progress-text">Выполнено 0 из 0 привычек</p></div>
+                            <div class="col-md-4 text-md-end"><div class="progress-percentage-large" id="progress-percentage">0%</div><div class="progress"><div class="progress-bar" id="progress-bar" style="width: 0%"></div></div></div>
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <div class="row">
+                            <div class="col-md-6"><select class="form-select filter-select" id="categoryFilter"><option value="all">📋 Все категории</option><option value="health">🏃 Здоровье</option><option value="education">📚 Образование</option><option value="work">💼 Работа</option><option value="hobby">🎨 Хобби</option><option value="mindfulness">🧘 Осознанность</option><option value="productivity">⚡ Продуктивность</option><option value="fitness">💪 Спорт</option><option value="other">📦 Другое</option></select></div>
+                            <div class="col-md-6 text-md-end"><span class="text-muted small"><i class="bi bi-funnel me-1"></i>Фильтр по категориям</span></div>
+                        </div>
+                    </div>
+                    <div class="row g-3" id="habitsContainer"></div>
+                    <div class="pending-section mt-4" id="publicPendingSection" style="display: none;"><h5><i class="bi bi-globe text-info me-2"></i>Мои публичные привычки на модерации<small class="text-muted ms-2">(будут доступны всем после проверки)</small></h5><div class="row g-3" id="publicPendingContainer"></div></div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer"><div class="container"><div class="row"><div class="col-md-6"><p class="mb-0">&copy; 2026 Habit. Все права защищены.</p></div><div class="col-md-6 text-md-end"><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal" class="me-3">Политика конфиденциальности</a><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Условия использования</a></div></div></div></footer>
+
+        <div class="modal fade" id="privacyModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-shield-lock me-2"></i>Политика конфиденциальности</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><h6>1. Общие положения</h6><p>Настоящая Политика конфиденциальности является неотъемлемой частью Пользовательского соглашения Habit.</p><h6 class="mt-3">2. Какие данные мы собираем</h6><p>Имя, email, логин, информация о привычках и прогрессе, технические данные.</p><h6 class="mt-3">3. Как мы используем данные</h6><p>Для предоставления сервиса, персонализации, аналитики.</p><h6 class="mt-3">4. Защита данных</h6><p>Мы принимаем все необходимые меры для защиты ваших данных.</p><p class="text-muted mt-3"><small>Последнее обновление: 15 апреля 2026 г.</small></p></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Понятно</button></div></div></div></div>
+
+        <div class="modal fade" id="termsModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-file-text me-2"></i>Условия использования</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><h6>1. Принятие условий</h6><p>Регистрируясь и используя сервис Habit, вы соглашаетесь с настоящими Условиями.</p><h6 class="mt-3">2. Описание сервиса</h6><p>Habit — платформа для отслеживания и формирования полезных привычек.</p><h6 class="mt-3">3. Обязанности пользователя</h6><ul><li>Предоставлять достоверную информацию</li><li>Не нарушать работу сервиса</li><li>Не использовать сервис для незаконных целей</li><li>Уважать других пользователей</li></ul><h6 class="mt-3">4. Контент пользователей</h6><p>Вы сохраняете права на создаваемый вами контент.</p><h6 class="mt-3">5. Ограничение ответственности</h6><p>Habit не несет ответственности за результаты использования сервиса.</p><h6 class="mt-3">6. Прекращение использования</h6><p>Вы можете удалить свой аккаунт в любой момент в настройках профиля.</p><p class="text-muted mt-3"><small>Последнее обновление: 15 апреля 2026 г.</small></p></div><div class="modal-footer"><button type="button" class="btn btn-primary" data-bs-dismiss="modal">Принимаю</button></div></div></div></div>
+    </div>
+
+    <div class="modal fade" id="addHabitModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-person-circle me-2"></i>Новая личная привычка</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body"><form id="addHabitForm"><div class="mb-3"><label class="form-label">Название *</label><input type="text" class="form-control" id="habitName" placeholder="Например, Утренняя зарядка" required></div><div class="mb-3"><label class="form-label">Описание</label><textarea class="form-control" id="habitDescription" rows="2" placeholder="Краткое описание"></textarea></div><div class="row"><div class="col-md-6 mb-3"><label class="form-label">Время начала</label><input type="time" class="form-control" id="habitTimeStart" value="08:00"></div><div class="col-md-6 mb-3"><label class="form-label">Время окончания</label><input type="time" class="form-control" id="habitTimeEnd" value="20:00"><small class="text-muted">Вне этого окна привычка будет недоступна</small></div></div><div class="row"><div class="col-md-6 mb-3"><label class="form-label">Сложность</label><select class="form-select" id="habitDifficulty"><option value="1">🌟 Легкая (10 очков)</option><option value="2" selected>⭐⭐ Средняя (20 очков)</option><option value="3">⭐⭐⭐ Сложная (30 очков)</option></select></div><div class="col-md-6 mb-3"><label class="form-label">Категория</label><select class="form-select" id="habitCategory"><option value="health">🏃 Здоровье</option><option value="education">📚 Образование</option><option value="work">💼 Работа</option><option value="hobby">🎨 Хобби</option><option value="mindfulness">🧘 Осознанность</option><option value="productivity">⚡ Продуктивность</option><option value="fitness">💪 Спорт</option><option value="other" selected>📦 Другое</option></select></div></div><div class="alert alert-success py-2 small"><i class="bi bi-check-circle me-2"></i>Личная привычка добавляется сразу без модерации</div></form></div>
+        <div class="modal-footer"><button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Отмена</button><button type="button" class="btn btn-primary btn-sm" id="savePersonalHabitBtn"><i class="bi bi-check-lg me-2"></i>Добавить</button></div></div></div>
+    </div>
+
+    <div class="modal fade" id="addPublicHabitModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="bi bi-globe me-2"></i>Предложить публичную привычку</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body"><form id="addPublicHabitForm"><div class="mb-3"><label class="form-label">Название *</label><input type="text" class="form-control" id="publicHabitName" placeholder="Например, Медитация по утрам" required></div><div class="mb-3"><label class="form-label">Описание</label><textarea class="form-control" id="publicHabitDescription" rows="2" placeholder="Подробное описание" required></textarea></div><div class="row"><div class="col-md-6 mb-3"><label class="form-label">Время начала</label><input type="time" class="form-control" id="publicHabitTimeStart" value="08:00"></div><div class="col-md-6 mb-3"><label class="form-label">Время окончания</label><input type="time" class="form-control" id="publicHabitTimeEnd" value="20:00"></div></div><div class="row"><div class="col-md-6 mb-3"><label class="form-label">Сложность</label><select class="form-select" id="publicHabitDifficulty"><option value="1">🌟 Легкая</option><option value="2" selected>⭐⭐ Средняя</option><option value="3">⭐⭐⭐ Сложная</option></select></div><div class="col-md-6 mb-3"><label class="form-label">Категория</label><select class="form-select" id="publicHabitCategory"><option value="health">🏃 Здоровье</option><option value="education">📚 Образование</option><option value="work">💼 Работа</option><option value="hobby">🎨 Хобби</option><option value="mindfulness">🧘 Осознанность</option><option value="productivity">⚡ Продуктивность</option><option value="fitness">💪 Спорт</option><option value="other">📦 Другое</option></select></div></div><div class="alert alert-warning py-2 small"><i class="bi bi-info-circle me-2"></i>Публичная привычка будет проверена администратором</div></form></div>
+        <div class="modal-footer"><button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Отмена</button><button type="button" class="btn btn-success btn-sm" id="savePublicHabitBtn"><i class="bi bi-send me-2"></i>Отправить на модерацию</button></div></div></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/habits.js"></script>
+</body>
+</html>
